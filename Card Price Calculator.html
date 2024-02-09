@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Price Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .calculator {
+      margin: 0 auto;
+      padding: 40px;
+      border-radius: 15px;
+      background-color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .calculator h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .calculator label {
+      display: block;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .calculator input {
+      width: 200px;
+      height: 40px;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 20px;
+      transition: border-color 0.2s ease-in-out;
+    }
+
+    .calculator input:focus {
+      border-color: #28a745; /* Green for active input */
+    }
+
+    .results {
+      margin-top: 25px;
+      font-size: 22px;
+    }
+
+    .results span {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .cardPrice, .priceWithTaxes {
+      color: #28a745; /* Green for positive results */
+    }
+
+    .invalid {
+      color: #d9534f; /* Red for invalid input */
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Card Price Calculator</h1>
+    <label for="cashPrice">Enter Cash Price:</label>
+    <input type="number" id="cashPrice" size="10" placeholder="Enter cash price" onkeyup="calculatePrice()">
+    <div class="results">
+      <span id="cardPrice"></span>
+      <span id="priceWithTaxes"></span>
+    </div>
+  </div>
+  <script>
+    function calculatePrice() {
+      var cashPrice = parseFloat(document.getElementById("cashPrice").value);
+
+      if (isNaN(cashPrice)) {
+        document.getElementById("cardPrice").innerHTML = "Invalid input";
+        document.getElementById("priceWithTaxes").innerHTML = "";
+        document.getElementById("cashPrice").classList.add("invalid");
+        return;
+      }
+
+      var cardPrice = round((cashPrice * 0.04) + cashPrice, 0);
+      var priceWithTaxes = round((cardPrice * 0.08875) + cardPrice, 2);
+
+      document.getElementById("cardPrice").innerHTML = "Card Price: $" + cardPrice;
+      document.getElementById("priceWithTaxes").innerHTML = "Price with Taxes: $" + priceWithTaxes;
+      document.getElementById("cashPrice").classList.remove("invalid");
+    }
+
+    function round(number, decimals) {
+      return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    }
+  </script>
+</body>
+</html>
